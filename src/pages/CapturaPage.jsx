@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { ProductsContext } from "../context/ProductsContext";
 
 const initialValues = {
   name: "",
@@ -7,6 +8,7 @@ const initialValues = {
 
 export const CapturaPage = () => {
   const [form, setForm] = useState(initialValues);
+  const { products, agregaProducto } = useContext(ProductsContext);
   const nameRef = useRef(null);
 
   const handleSubmit = (event) => {
@@ -16,7 +18,8 @@ export const CapturaPage = () => {
       return nameRef.current.focus();
     }
 
-    console.log(form);
+    // console.log(form);
+    agregaProducto(form);
 
     setForm(initialValues);
     nameRef.current.focus();
@@ -29,7 +32,7 @@ export const CapturaPage = () => {
   return (
     <div className="container">
       <header className="row col">
-        <h1>Captura</h1>
+        <h1>CapturaPage</h1>
       </header>
       <main className="row">
         <article className="col">
@@ -73,6 +76,18 @@ export const CapturaPage = () => {
           </form>
         </article>
       </main>
+      <section className="row">
+        <article className="col">
+          <h2>Lista</h2>
+          <ul>
+            {products.map((item) => (
+              <li key={item.name}>
+                {item.name} - {item.price}
+              </li>
+            ))}
+          </ul>
+        </article>
+      </section>
     </div>
   );
 };
